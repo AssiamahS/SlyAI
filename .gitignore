@@ -6,3 +6,4 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 .DS_Store
+__pycache__/

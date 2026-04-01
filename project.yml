@@ -37,6 +37,9 @@ targets:
       - package: SwiftTerm
       - sdk: EventKit.framework
       - sdk: UserNotifications.framework
+      - sdk: CoreSpotlight.framework
+      - sdk: WidgetKit.framework
+      - target: SlyAIWidgets
     info:
       path: SlyAI/Info.plist
       properties:
@@ -47,3 +50,26 @@ targets:
           - UIInterfaceOrientationPortrait
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
+
+  SlyAIWidgets:
+    type: app-extension
+    platform: iOS
+    entitlements:
+      path: SlyAIWidgets/SlyAIWidgets.entitlements
+    sources: [SlyAIWidgets]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.blkstr.slyai.widgets
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: QGMAWHX827
+        SWIFT_VERSION: "6.0"
+    dependencies:
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+    info:
+      path: SlyAIWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: SlyAI Widgets
+        CFBundlePackageType: XPC!
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension

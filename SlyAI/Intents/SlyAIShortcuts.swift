@@ -12,7 +12,7 @@ struct AskSlyAIIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let serverURL = UserDefaults.standard.string(forKey: "slyai_server_url")
-            ?? "http://204.236.195.103:8080"
+            ?? "http://44.215.39.238:8080"
 
         guard let url = URL(string: "\(serverURL)/v1/chat") else {
             return .result(dialog: "Server not configured.")
@@ -37,6 +37,8 @@ struct AskSlyAIIntent: AppIntent {
                 await CalendarManager.shared.createReminder(from: action)
             case "alarm":
                 NotificationManager.shared.scheduleAlarm(from: action)
+            case "notification":
+                NotificationManager.shared.scheduleTimedNotification(from: action)
             default:
                 break
             }
@@ -53,6 +55,10 @@ struct SlyAIShortcuts: AppShortcutsProvider {
             phrases: [
                 "Ask \(.applicationName)",
                 "Hey \(.applicationName)",
+                "Tell \(.applicationName)",
+                "\(.applicationName) remind me",
+                "\(.applicationName) set alarm",
+                "\(.applicationName) set reminder",
             ],
             shortTitle: "Ask SlyAI",
             systemImageName: "brain"

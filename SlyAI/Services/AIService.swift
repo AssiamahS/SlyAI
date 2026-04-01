@@ -63,9 +63,18 @@ class AIService: ObservableObject {
 
     private var conversationId: String?
 
+    static let currentServerURL = "http://44.215.39.238:8080"
+
     init() {
-        self.serverURL = UserDefaults.standard.string(forKey: "slyai_server_url")
-            ?? "http://204.236.195.103:8080"
+        // Always use the current server URL (Elastic IP)
+        // Override any stale cached value from before the IP change
+        let saved = UserDefaults.standard.string(forKey: "slyai_server_url") ?? ""
+        if saved.isEmpty || saved.contains("204.236.195.103") {
+            self.serverURL = Self.currentServerURL
+            UserDefaults.standard.set(Self.currentServerURL, forKey: "slyai_server_url")
+        } else {
+            self.serverURL = saved
+        }
     }
 
     func sendMessage(_ text: String) async {
@@ -125,6 +134,8 @@ class AIService: ObservableObject {
             await CalendarManager.shared.createEvent(from: action)
         case "reminder":
             await CalendarManager.shared.createReminder(from: action)
+            // Also schedule a local notification so the user actually gets alerted
+            NotificationManager.shared.scheduleReminderNotification(from: action)
         case "alarm":
             NotificationManager.shared.scheduleAlarm(from: action)
         case "notification":
