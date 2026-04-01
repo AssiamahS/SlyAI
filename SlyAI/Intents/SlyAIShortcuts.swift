@@ -48,6 +48,23 @@ struct AskSlyAIIntent: AppIntent {
     }
 }
 
+struct VoiceSlyAIIntent: AppIntent {
+    static let title: LocalizedStringResource = "Voice SlyAI"
+    static let description: IntentDescription = "Open SlyAI in voice mode"
+    static let openAppWhenRun: Bool = true
+
+    func perform() async throws -> some IntentResult {
+        await MainActor.run {
+            NotificationCenter.default.post(name: .slyAIStartListening, object: nil)
+        }
+        return .result()
+    }
+}
+
+extension Notification.Name {
+    static let slyAIStartListening = Notification.Name("slyAIStartListening")
+}
+
 struct SlyAIShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
@@ -62,6 +79,16 @@ struct SlyAIShortcuts: AppShortcutsProvider {
             ],
             shortTitle: "Ask SlyAI",
             systemImageName: "brain"
+        )
+        AppShortcut(
+            intent: VoiceSlyAIIntent(),
+            phrases: [
+                "Voice \(.applicationName)",
+                "Talk to \(.applicationName)",
+                "\(.applicationName) listen",
+            ],
+            shortTitle: "Voice SlyAI",
+            systemImageName: "mic.fill"
         )
     }
 }

@@ -39,6 +39,8 @@ targets:
       - sdk: UserNotifications.framework
       - sdk: CoreSpotlight.framework
       - sdk: WidgetKit.framework
+      - sdk: Speech.framework
+      - sdk: AVFoundation.framework
       - target: SlyAIWidgets
     info:
       path: SlyAI/Info.plist
@@ -50,6 +52,8 @@ targets:
           - UIInterfaceOrientationPortrait
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
+        NSMicrophoneUsageDescription: SlyAI uses the microphone for voice commands
+        NSSpeechRecognitionUsageDescription: SlyAI uses speech recognition to understand your voice commands
 
   SlyAIWidgets:
     type: app-extension

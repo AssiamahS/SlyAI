@@ -25,6 +25,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>SlyAI uses the microphone for voice commands</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>SlyAI uses speech recognition to understand your voice commands</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>
